@@ -10,10 +10,12 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -53,10 +55,29 @@ fun MyApplicationTheme(
         else -> LightColorScheme
     }
     val view = LocalView.current
+
+    val systemUiController = rememberSystemUiController()
+    val useDarkIcons = !darkTheme
+
     if (!view.isInEditMode) {
         SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
-            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                systemUiController.setStatusBarColor(
+                    color = Color.Transparent,
+                    darkIcons = useDarkIcons
+                )
+
+                systemUiController.setNavigationBarColor(
+                    color = colorScheme.surface.copy(alpha = 0.95f),
+                    darkIcons = useDarkIcons
+                )
+            } else {
+                systemUiController.setSystemBarsColor(
+                    color = Color.Transparent,
+                    darkIcons = useDarkIcons
+                )
+                systemUiController.isNavigationBarContrastEnforced = true
+            }
         }
     }
 
