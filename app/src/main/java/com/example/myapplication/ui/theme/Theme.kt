@@ -56,10 +56,10 @@ fun MyApplicationTheme(
     }
     val view = LocalView.current
 
-    val systemUiController = rememberSystemUiController()
-    val useDarkIcons = !darkTheme
-
     if (!view.isInEditMode) {
+        val systemUiController = rememberSystemUiController()
+        val useDarkIcons = !darkTheme
+
         SideEffect {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
                 systemUiController.setStatusBarColor(
@@ -76,7 +76,6 @@ fun MyApplicationTheme(
                     color = Color.Transparent,
                     darkIcons = useDarkIcons
                 )
-                systemUiController.isNavigationBarContrastEnforced = true
             }
         }
     }

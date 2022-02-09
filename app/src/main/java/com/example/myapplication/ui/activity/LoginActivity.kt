@@ -1,25 +1,26 @@
 package com.example.myapplication.ui.activity
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.rememberSplineBasedDecay
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import com.example.myapplication.ui.components.InsetLargeTopAppBar
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.systemBarsPadding
 
 @OptIn(ExperimentalMaterial3Api::class)
 class LoginActivity : ComponentActivity() {
@@ -28,43 +29,9 @@ class LoginActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-            val scrollBehavior = remember(decayAnimationSpec) {
-                TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
-            }
-            val scrollState = rememberScrollState()
-
             MyApplicationTheme {
                 ProvideWindowInsets {
-                    Scaffold(
-                        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-                        topBar = {
-                            InsetLargeTopAppBar(
-                                title = { Text("Title") },
-                                scrollBehavior = scrollBehavior
-                            )
-                        },
-                        content = { paddingValues ->
-                            // A surface container using the 'background' color from the theme
-                            Surface(
-                                modifier = Modifier
-                                    .padding(paddingValues)
-                                    .fillMaxSize(),
-                                color = MaterialTheme.colorScheme.surface,
-                                tonalElevation = 1.dp
-                            ) {
-                                Column(
-                                    modifier = Modifier
-                                        .padding(paddingValues)
-                                        .fillMaxSize()
-                                        .verticalScroll(scrollState)
-                                ) {
-                                    repeat(74) {
-                                        Greeting2("Android")
-                                    }
-                                }
-                            }
-                        })
+                    LoginContent()
                 }
             }
         }
@@ -72,14 +39,38 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting2(name: String) {
-    Text(text = "Hello $name!")
+fun LoginContent() {
+    val scrollState = rememberScrollState()
+
+    Surface(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .verticalScroll(scrollState)
+                .systemBarsPadding(),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Title",
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun DefaultPreview2() {
+@Preview(showBackground = true)
+fun LoginPreview() {
     MyApplicationTheme {
-        Greeting2("Android")
+        LoginContent()
+    }
+}
+
+@Composable
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+fun LoginPreviewNight() {
+    MyApplicationTheme {
+        LoginContent()
     }
 }
