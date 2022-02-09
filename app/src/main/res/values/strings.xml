@@ -1,5 +1,8 @@
 <resources>
+    <!-- Global -->
+    <string name="more">More</string>
 
 
     <string name="title_activity_login">LoginActivity</string>
+
 </resources>
