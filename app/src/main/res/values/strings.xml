@@ -1,8 +1,13 @@
 <resources>
     <!-- Global -->
     <string name="more">More</string>
+    <string name="password">Password</string>
+    <string name="email">E-mail</string>
 
-
-    <string name="title_activity_login">LoginActivity</string>
+    <!-- LoginActivity -->
+    <string name="forgot_my_password">I forgot my password</string>
+    <string name="log_in">Log in</string>
+    <string name="login_to_continue">Log in to continue</string>
+    <string name="welcome_msg">Welcome to %s</string>
 
 </resources>
