@@ -18,8 +18,11 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
 import com.example.myapplication.ui.components.InsetLargeTopAppBar
+import com.example.myapplication.ui.components.ShoppingBagIndicator
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import dagger.hilt.android.AndroidEntryPoint
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,10 +31,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
-        finish()
 
         setContent {
             val decayAnimationSpec = rememberSplineBasedDecay<Float>()
@@ -68,6 +67,16 @@ class MainActivity : ComponentActivity() {
                                         Greeting("Android")
                                     }
                                 }
+                            }
+                        },
+                        bottomBar = {
+                            ShoppingBagIndicator(
+                                paddingValues = rememberInsetsPaddingValues(
+                                    insets = LocalWindowInsets.current.navigationBars
+                                ),
+                                currentPrice = "R$ 25,00"
+                            ) {
+
                             }
                         })
                 }

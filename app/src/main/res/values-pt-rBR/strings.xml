@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Global -->
+    <string name="more">Mais</string>
+    <string name="password">Senha</string>
+    <string name="email">E-mail</string>
+    <string name="add">Adicionar</string>
+    <string name="available_template">%s disponíveis</string>
+
+    <!-- LoginActivity -->
+    <string name="forgot_my_password">Esqueci minha senha</string>
+    <string name="log_in">Entrar</string>
+    <string name="login_to_continue">Faça login para continuar</string>
+    <string name="welcome_msg">Bem-vindo ao %s</string>
+    <string name="see_bag">Ver sacola</string>
+</resources>
