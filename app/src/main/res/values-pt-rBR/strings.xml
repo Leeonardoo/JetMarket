@@ -13,4 +13,6 @@
     <string name="login_to_continue">Faça login para continuar</string>
     <string name="welcome_msg">Bem-vindo ao %s</string>
     <string name="see_bag">Ver sacola</string>
+    <string name="add_to_bag">Adicionar a sacola</string>
+
 </resources>

@@ -12,5 +12,6 @@
     <string name="login_to_continue">Log in to continue</string>
     <string name="welcome_msg">Welcome to %s</string>
     <string name="see_bag">See bag</string>
+    <string name="add_to_bag">Add to bag</string>
 
 </resources>

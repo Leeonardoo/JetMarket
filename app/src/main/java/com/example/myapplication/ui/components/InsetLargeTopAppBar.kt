@@ -17,10 +17,10 @@ fun InsetLargeTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
     actions: List<ActionItemSpec> = listOf(),
     navigationIcon: @Composable (() -> Unit)? = null,
+    appBarColors: TopAppBarColors = TopAppBarDefaults.largeTopAppBarColors(),
     onClickNavigation: () -> Unit = {}
 ) {
-    val backgroundColors = TopAppBarDefaults.largeTopAppBarColors()
-    val backgroundColor = backgroundColors.containerColor(
+    val backgroundColor = appBarColors.containerColor(
         scrollFraction = scrollBehavior?.scrollFraction ?: 0f
     ).value
     val foregroundColors = TopAppBarDefaults.largeTopAppBarColors(

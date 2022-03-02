@@ -17,10 +17,10 @@ fun InsetMediumTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
     actions: List<ActionItemSpec> = listOf(),
     navigationIcon: @Composable (() -> Unit)? = null,
+    appBarColors: TopAppBarColors = TopAppBarDefaults.mediumTopAppBarColors(),
     onClickNavigation: () -> Unit = {}
 ) {
-    val backgroundColors = TopAppBarDefaults.mediumTopAppBarColors()
-    val backgroundColor = backgroundColors.containerColor(
+    val backgroundColor = appBarColors.containerColor(
         scrollFraction = scrollBehavior?.scrollFraction ?: 0f
     ).value
     val foregroundColors = TopAppBarDefaults.mediumTopAppBarColors(
