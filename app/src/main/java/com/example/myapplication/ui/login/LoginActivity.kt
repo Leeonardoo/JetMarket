@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.activity
+package com.example.myapplication.ui.login
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
@@ -24,7 +24,6 @@ import com.google.accompanist.insets.imePadding
 import com.google.accompanist.insets.systemBarsPadding
 import androidx.compose.material.Text as M2Text
 
-@OptIn(ExperimentalMaterial3Api::class)
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

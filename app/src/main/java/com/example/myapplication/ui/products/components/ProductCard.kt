@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.components
+package com.example.myapplication.ui.products.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.clickable
@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
-import com.example.myapplication.domain.Product
+import com.example.myapplication.ui.products.Product
 import com.example.myapplication.ui.preview.ProductPreviewProvider
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.utils.toCurrencyFormat

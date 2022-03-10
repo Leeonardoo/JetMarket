@@ -1,6 +1,5 @@
-package com.example.myapplication.ui.activity
+package com.example.myapplication.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,7 +17,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
 import com.example.myapplication.ui.components.InsetLargeTopAppBar
-import com.example.myapplication.ui.components.ShoppingBagIndicator
+import com.example.myapplication.ui.products.components.ShoppingBagIndicator
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -37,18 +36,19 @@ class MainActivity : ComponentActivity() {
             val scrollBehavior = remember(decayAnimationSpec) {
                 TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
             }
-            val scrollState = rememberScrollState()
 
             MyApplicationTheme {
                 ProvideWindowInsets {
+                    ModalNavigationDrawer(drawerContent = ) {
+                        
+                    }
+                }
+                
+
+                ProvideWindowInsets {
                     Scaffold(
                         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-                        topBar = {
-                            InsetLargeTopAppBar(
-                                title = { Text("Title") },
-                                scrollBehavior = scrollBehavior
-                            )
-                        },
+
                         content = { paddingValues ->
                             // A surface container using the 'background' color from the theme
                             Surface(
@@ -57,16 +57,7 @@ class MainActivity : ComponentActivity() {
                                     .fillMaxSize(),
                                 color = MaterialTheme.colorScheme.background
                             ) {
-                                Column(
-                                    modifier = Modifier
-                                        .padding(paddingValues)
-                                        .fillMaxSize()
-                                        .verticalScroll(scrollState)
-                                ) {
-                                    repeat(74) {
-                                        Greeting("Android")
-                                    }
-                                }
+
                             }
                         },
                         bottomBar = {
@@ -82,18 +73,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MyApplicationTheme {
-        Greeting("Android")
     }
 }
