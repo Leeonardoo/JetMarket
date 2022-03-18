@@ -6,6 +6,7 @@
     <string name="email">E-mail</string>
     <string name="add">Adicionar</string>
     <string name="available_template">%s disponíveis</string>
+    <string name="logout">Sair</string>
 
     <!-- LoginActivity -->
     <string name="forgot_my_password">Esqueci minha senha</string>
@@ -14,5 +15,14 @@
     <string name="welcome_msg">Bem-vindo ao %s</string>
     <string name="see_bag">Ver sacola</string>
     <string name="add_to_bag">Adicionar a sacola</string>
+
+    <!-- Screen labels -->
+    <string name="products_label">Produtos</string>
+    <string name="my_purchases_label">Minhas compras</string>
+    <string name="profile_label">Perfil</string>
+    <string name="users_label">Usuários</string>
+    <string name="settings_label">Configurações</string>
+    <string name="admin_area_label">Área Administrador</string>
+
 
 </resources>
