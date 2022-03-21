@@ -113,6 +113,7 @@ dependencies {
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
     implementation "androidx.hilt:hilt-work:1.0.0"
     implementation 'androidx.hilt:hilt-common:1.0.0'
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
     //Misc
     implementation 'me.jorgecastillo:androidcolorx:0.2.0'
@@ -128,8 +129,8 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
     implementation "androidx.navigation:navigation-compose:$nav_version"
-    implementation 'io.github.raamcosta.compose-destinations:animations-core:1.3.3-beta'
-    ksp 'io.github.raamcosta.compose-destinations:ksp:1.3.3-beta'
+    implementation 'io.github.raamcosta.compose-destinations:animations-core:1.3.5-beta'
+    ksp 'io.github.raamcosta.compose-destinations:ksp:1.3.5-beta'
 
     //Jetpack Compose
     implementation "androidx.compose.ui:ui:$compose_version"
