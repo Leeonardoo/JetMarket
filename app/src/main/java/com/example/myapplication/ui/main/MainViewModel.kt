@@ -3,8 +3,11 @@ package com.example.myapplication.ui.main
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -17,10 +20,10 @@ class MainViewModel @Inject constructor(
         Timber.d("Initializing")
     }
 
-    private val _switchDrawer = MutableSharedFlow<Unit>()
-    val switchDrawer: SharedFlow<Unit> = _switchDrawer
+    private val _switchDrawer = Channel<Unit>(Channel.BUFFERED)
+    val switchDrawer = _switchDrawer.receiveAsFlow()
 
     fun openDrawer() {
-        _switchDrawer.tryEmit(Unit)
+        _switchDrawer.trySend(Unit)
     }
 }

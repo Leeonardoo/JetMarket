@@ -14,21 +14,25 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.myapplication.R
+import com.example.myapplication.ui.NavGraphs
+import com.example.myapplication.ui.destinations.ProductsScreenDestination
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.myapplication.utils.rememberViewModelStoreOwner
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsHeight
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -36,8 +40,6 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    private val viewModel: MainViewModel by viewModels()
 
     @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,17 +49,20 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberAnimatedNavController()
             val navHostEngine = rememberAnimatedNavHostEngine()
+            val coroutineScope = rememberCoroutineScope()
 
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
-            val scope = rememberCoroutineScope()
+
+            val vmStoreOwner = rememberViewModelStoreOwner()
+            val viewModel: MainViewModel = viewModel(vmStoreOwner)
 
             val openDrawer = {
-                scope.launch {
+                coroutineScope.launch {
                     drawerState.open()
                 }
             }
             val closeDrawer = {
-                scope.launch {
+                coroutineScope.launch {
                     drawerState.close()
                 }
             }
@@ -72,6 +77,7 @@ class MainActivity : ComponentActivity() {
                                     .verticalScroll(state = rememberScrollState())
                             ) {
                                 DrawerItems(
+                                    navController = navController,
                                     openDrawer = { openDrawer() },
                                     closeDrawer = { closeDrawer() }
                                 )
@@ -79,7 +85,18 @@ class MainActivity : ComponentActivity() {
                         },
                         drawerState = drawerState
                     ) {
-                        /*NavHost*/
+                        CompositionLocalProvider(
+                            LocalNavGraphViewModelStoreOwner provides vmStoreOwner
+                        ) {
+                            DestinationsNavHost(
+                                navGraph = NavGraphs.root,
+                                engine = navHostEngine,
+                                navController = navController
+                            ) {
+
+                            }
+                            /*NavHost*/
+                        }
                     }
                 }
             }
@@ -93,16 +110,24 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+val LocalNavGraphViewModelStoreOwner =
+    staticCompositionLocalOf<ViewModelStoreOwner> {
+        TODO("Undefined")
+    }
+
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun DrawerItems(openDrawer: () -> Unit, closeDrawer: () -> Unit) {
+fun DrawerItems(navController: NavController, openDrawer: () -> Unit, closeDrawer: () -> Unit) {
     Spacer(modifier = Modifier.statusBarsHeight())
 
     NavigationDrawerItem(
         label = { Text(text = stringResource(R.string.products_label)) },
         selected = true,
         icon = { Icon(Icons.Outlined.Store, null) },
-        onClick = closeDrawer
+        onClick = {
+            navController.navigate(ProductsScreenDestination.route)
+            closeDrawer()
+        }
     )
 
     NavigationDrawerItem(

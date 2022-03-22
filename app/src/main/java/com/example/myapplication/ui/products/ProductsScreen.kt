@@ -1,11 +1,14 @@
 package com.example.myapplication.ui.products
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -14,19 +17,22 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.ui.components.InsetLargeTopAppBar
+import com.example.myapplication.ui.destinations.ProductDetailsDialogDestination
+import com.example.myapplication.ui.main.LocalNavGraphViewModelStoreOwner
 import com.example.myapplication.ui.main.MainViewModel
 import com.example.myapplication.ui.products.components.ShoppingBagIndicator
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 @Destination(start = true)
-fun ProductsScreen() {
-    val mainViewModel = viewModel<MainViewModel>()
+fun ProductsScreen(navigator: DestinationsNavigator) {
+    val mainViewModel = viewModel<MainViewModel>(LocalNavGraphViewModelStoreOwner.current)
 
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = remember(decayAnimationSpec) {
@@ -34,48 +40,45 @@ fun ProductsScreen() {
     }
     val scrollState = rememberScrollState()
 
-    ProvideWindowInsets {
-        Scaffold(
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                InsetLargeTopAppBar(
-                    title = { Text("Title") },
-                    scrollBehavior = scrollBehavior
-                ) {
-                    mainViewModel.openDrawer()
-                }
-            },
-            content = { paddingValues ->
-                // A surface container using the 'background' color from the theme
-                Surface(
+    com.google.accompanist.insets.ui.Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            InsetLargeTopAppBar(
+                title = { Text("Title") },
+                navigationIcon = { Icon(Icons.Filled.Menu, null) },
+                scrollBehavior = scrollBehavior
+            ) {
+                mainViewModel.openDrawer()
+            }
+        },
+        content = { paddingValues ->
+            Surface(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                Column(
                     modifier = Modifier
-                        .padding(paddingValues)
-                        .fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                        .fillMaxSize()
+                        .verticalScroll(scrollState)
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .padding(paddingValues)
-                            .fillMaxSize()
-                            .verticalScroll(scrollState)
-                    ) {
-                        repeat(74) {
-                            Greeting("Android")
-                        }
+                    repeat(74) {
+                        Greeting("Android $it")
                     }
                 }
-            },
-            bottomBar = {
-                ShoppingBagIndicator(
-                    paddingValues = rememberInsetsPaddingValues(
-                        insets = LocalWindowInsets.current.navigationBars
-                    ),
-                    currentPrice = "R$ 25,00"
-                ) {
-
-                }
-            })
-    }
+            }
+        },
+        bottomBar = {
+            ShoppingBagIndicator(
+                paddingValues = rememberInsetsPaddingValues(
+                    insets = LocalWindowInsets.current.navigationBars
+                ),
+                currentPrice = "R$ 25,00"
+            ) {
+                navigator.navigate(ProductDetailsDialogDestination)
+            }
+        })
 }
 
 @Composable

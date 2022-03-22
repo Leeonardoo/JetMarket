@@ -23,8 +23,10 @@ import com.example.myapplication.ui.components.InsetSmallTopAppBar
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.utils.surfaceColorAtElevation
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.ramcosta.composedestinations.annotation.Destination
 
 @Composable
+@Destination
 @OptIn(ExperimentalMaterial3Api::class)
 fun ProductDetailsDialog() {
     //6.dp
