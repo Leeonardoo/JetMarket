@@ -12,27 +12,26 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.ui.components.InsetLargeTopAppBar
+import com.example.myapplication.ui.components.common.DrawerController
 import com.example.myapplication.ui.destinations.ProductDetailsDialogDestination
-import com.example.myapplication.ui.main.LocalNavGraphViewModelStoreOwner
-import com.example.myapplication.ui.main.MainViewModel
 import com.example.myapplication.ui.products.components.ShoppingBagIndicator
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 @Destination(start = true)
-fun ProductsScreen(navigator: DestinationsNavigator) {
-    val mainViewModel = viewModel<MainViewModel>(LocalNavGraphViewModelStoreOwner.current)
+fun ProductsScreen(navigator: DestinationsNavigator, drawerController: DrawerController) {
+    val coroutineScope = rememberCoroutineScope()
 
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = remember(decayAnimationSpec) {
@@ -48,7 +47,7 @@ fun ProductsScreen(navigator: DestinationsNavigator) {
                 navigationIcon = { Icon(Icons.Filled.Menu, null) },
                 scrollBehavior = scrollBehavior
             ) {
-                mainViewModel.openDrawer()
+                coroutineScope.launch { drawerController.open() }
             }
         },
         content = { paddingValues ->

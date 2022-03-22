@@ -16,14 +16,5 @@ class MainViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    init {
-        Timber.d("Initializing")
-    }
 
-    private val _switchDrawer = Channel<Unit>(Channel.BUFFERED)
-    val switchDrawer = _switchDrawer.receiveAsFlow()
-
-    fun openDrawer() {
-        _switchDrawer.trySend(Unit)
-    }
 }
