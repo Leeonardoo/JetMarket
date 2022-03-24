@@ -12,8 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
-import com.example.myapplication.ui.products.Product
-import com.example.myapplication.ui.preview.ProductPreviewProvider
+import com.example.myapplication.ui.products.model.Product
+import com.example.myapplication.ui.products.data.ProductPreviewProvider
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.utils.toCurrencyFormat
 

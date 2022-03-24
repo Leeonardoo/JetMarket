@@ -1,7 +1,7 @@
-package com.example.myapplication.ui.preview
+package com.example.myapplication.ui.products.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.example.myapplication.ui.products.Product
+import com.example.myapplication.ui.products.model.Product
 
 class ProductPreviewProvider : PreviewParameterProvider<Product> {
     override val values = sequenceOf(

@@ -18,81 +18,89 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.R
 import com.example.myapplication.ui.components.InsetSmallTopAppBar
+import com.example.myapplication.ui.products.model.Product
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.utils.surfaceColorAtElevation
-import com.google.accompanist.insets.ProvideWindowInsets
+import com.example.myapplication.utils.toCurrencyFormat
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
+import com.google.accompanist.insets.ui.Scaffold
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
+import java.text.DecimalFormat
+import java.util.*
 
 @Composable
-@Destination
 @OptIn(ExperimentalMaterial3Api::class)
-fun ProductDetailsDialog() {
-    //6.dp
-    val scrollBehavior = remember {
-        TopAppBarDefaults.pinnedScrollBehavior()
-    }
+@Destination(
+    navArgsDelegate = ProductDetailsNavArgs::class
+)
+fun ProductDetailsDialog(
+    navigator: DestinationsNavigator,
+    viewModel: ProductDetailsViewModel = viewModel()
+) {
+    val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior() }
 
-    MyApplicationTheme {
-        ProvideWindowInsets {
-            Scaffold(
-                modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-                topBar = {
-                    InsetSmallTopAppBar(
-                        title = { },
-                        scrollBehavior = scrollBehavior,
-                        navigationIcon = {
-                            Icon(imageVector = Icons.Default.Close, contentDescription = null)
-                        },
-                        appBarColors = TopAppBarDefaults.smallTopAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp),
-                            scrolledContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                16.dp
-                            )
-                        )
-                    )
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            InsetSmallTopAppBar(
+                title = { },
+                scrollBehavior = scrollBehavior,
+                navigationIcon = {
+                    Icon(imageVector = Icons.Default.Close, contentDescription = null)
                 },
-                content = { paddingValues ->
-                    // A surface container using the 'background' color from the theme
-                    Surface(
-                        modifier = Modifier
-                            .padding(paddingValues)
-                            .fillMaxSize(),
-                        color = MaterialTheme.colorScheme.surface,
-                        tonalElevation = 6.dp
-                    ) {
-                        ProductDetailsDialogContent()
-                    }
-                })
-        }
-    }
+                appBarColors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp),
+                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(16.dp)
+                )
+            ) {
+                navigator.navigateUp()
+            }
+        },
+        content = { paddingValues ->
+            // A surface container using the 'background' color from the theme
+            Surface(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize(),
+                color = MaterialTheme.colorScheme.surface,
+                tonalElevation = 6.dp
+            ) {
+                ProductDetailsDialogContent(viewModel.product)
+            }
+        })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductDetailsDialogContent() {
+fun ProductDetailsDialogContent(product: Product) {
     val scrollState = rememberScrollState()
 
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 18.dp)
+            .padding(18.dp)
+            .navigationBarsPadding()
             .verticalScroll(scrollState)
     ) {
         val (title, price, quantity, bottomBar) = createRefs()
 
         Text(
-            text = "KitKat",
+            text = product.name,
             style = MaterialTheme.typography.headlineLarge,
             modifier = Modifier
                 .fillMaxWidth()
                 .constrainAs(title) {
-                    top.linkTo(parent.top, margin = 8.dp)
+                    top.linkTo(parent.top)
                 })
 
         Text(
-            text = "R$ 5,00",
+            text = product.price.toCurrencyFormat(),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier
                 .fillMaxWidth()
@@ -101,7 +109,7 @@ fun ProductDetailsDialogContent() {
                 })
 
         Text(
-            text = "15 disponíveis",
+            text = stringResource(R.string.available_template, product.availableQuantity),
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier
                 .fillMaxWidth()
@@ -117,8 +125,7 @@ fun ProductDetailsDialogContent() {
                     linkTo(
                         top = quantity.bottom,
                         bottom = parent.bottom,
-                        bias = 1f,
-                        bottomMargin = 16.dp
+                        bias = 1f
                     )
                 },
             verticalAlignment = Alignment.CenterVertically
@@ -169,7 +176,9 @@ fun ProductDetailsDialogContent() {
 
             Button(
                 onClick = { /*TODO*/ },
-                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
                 contentPadding = PaddingValues(0.dp)
             ) {
                 Text(text = stringResource(R.string.add_to_bag))
@@ -182,6 +191,6 @@ fun ProductDetailsDialogContent() {
 @Composable
 fun PreviewProductDetailsDialog() {
     MyApplicationTheme {
-        ProductDetailsDialog()
+        ProductDetailsDialog(EmptyDestinationsNavigator)
     }
 }
