@@ -29,6 +29,7 @@ import com.example.myapplication.ui.NavGraphs
 import com.example.myapplication.ui.components.common.DrawerController
 import com.example.myapplication.ui.components.common.DrawerControllerImpl
 import com.example.myapplication.ui.destinations.ProductsScreenDestination
+import com.example.myapplication.ui.destinations.UsersScreenDestination
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsHeight
@@ -151,6 +152,7 @@ fun DrawerItems(navController: NavController, drawerController: DrawerController
         selected = false,
         icon = { Icon(Icons.Outlined.PeopleOutline, null) },
         onClick = {
+            navController.navigate(UsersScreenDestination.route)
             coroutineScope.launch { drawerController.close() }
         }
     )

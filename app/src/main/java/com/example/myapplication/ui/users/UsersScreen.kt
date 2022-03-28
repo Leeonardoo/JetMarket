@@ -1,14 +1,13 @@
-package com.example.myapplication.ui.products
+package com.example.myapplication.ui.users
 
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -20,11 +19,10 @@ import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
 import com.example.myapplication.ui.components.InsetLargeTopAppBar
 import com.example.myapplication.ui.components.common.DrawerController
-import com.example.myapplication.ui.destinations.ProductDetailsDialogDestination
-import com.example.myapplication.ui.products.components.ProductCard
-import com.example.myapplication.ui.products.components.ShoppingBagIndicator
-import com.example.myapplication.ui.products.data.ProductPreviewProvider
+import com.example.myapplication.ui.users.components.UserRow
+import com.example.myapplication.ui.users.data.UserPreviewProvider
 import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.Scaffold
 import com.ramcosta.composedestinations.annotation.Destination
@@ -33,8 +31,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Destination(start = true)
-fun ProductsScreen(navigator: DestinationsNavigator, drawerController: DrawerController) {
+@Destination
+fun UsersScreen(navigator: DestinationsNavigator, drawerController: DrawerController) {
     val coroutineScope = rememberCoroutineScope()
 
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
@@ -46,7 +44,7 @@ fun ProductsScreen(navigator: DestinationsNavigator, drawerController: DrawerCon
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             InsetLargeTopAppBar(
-                title = { Text(stringResource(R.string.products_label)) },
+                title = { Text(stringResource(R.string.users_label)) },
                 navigationIcon = { Icon(Icons.Filled.Menu, null) },
                 scrollBehavior = scrollBehavior
             ) {
@@ -60,9 +58,9 @@ fun ProductsScreen(navigator: DestinationsNavigator, drawerController: DrawerCon
                     .fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                val products = ProductPreviewProvider().values.toMutableList()
+                val users = UserPreviewProvider().values.toMutableList()
                 repeat(74) {
-                    products.add(products.random())
+                    users.add(users.random())
                 }
 
                 LazyColumn(
@@ -70,31 +68,24 @@ fun ProductsScreen(navigator: DestinationsNavigator, drawerController: DrawerCon
                     contentPadding = rememberInsetsPaddingValues(
                         insets = LocalWindowInsets.current.navigationBars,
                         additionalTop = 16.dp,
-                        additionalStart = 16.dp,
-                        additionalEnd = 16.dp
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                        additionalBottom = 16.dp + 56.dp //FAB height
+                    )
                 ) {
-                    items(products) { product ->
-                        ProductCard(
-                            product = product,
-                            onClickDetails = {
-                                navigator.navigate(ProductDetailsDialogDestination(product))
-                            },
-                            onClickAdd = {}
+                    items(users) { user ->
+                        UserRow(
+                            user = user,
+                            onClick = {}
                         )
                     }
                 }
             }
         },
-        bottomBar = {
-            ShoppingBagIndicator(
-                paddingValues = rememberInsetsPaddingValues(
-                    insets = LocalWindowInsets.current.navigationBars
-                ),
-                currentPrice = "R$ 25,00"
-            ) {
-
+        floatingActionButton = {
+            FloatingActionButton(
+                modifier = Modifier.navigationBarsWithImePadding(),
+                onClick = { /*TODO*/ }) {
+                Icon(Icons.Outlined.Add, null)
             }
-        })
+        }
+    )
 }

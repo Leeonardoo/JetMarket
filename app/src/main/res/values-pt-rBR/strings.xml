@@ -24,5 +24,8 @@
     <string name="settings_label">Configurações</string>
     <string name="admin_area_label">Área Administrador</string>
 
+    <!-- UsersScreen-->
+    <string name="profile_picture_desc">Foto de perfil</string>
+
 
 </resources>

@@ -23,4 +23,7 @@
     <string name="settings_label">Settings</string>
     <string name="admin_area_label">Admin area</string>
 
+    <!-- UsersScreen-->
+    <string name="profile_picture_desc">Profile picture</string>
+
 </resources>
