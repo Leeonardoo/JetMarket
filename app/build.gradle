@@ -33,12 +33,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             versionNameSuffix ""
-            resValue "string", "app_name", "My Application"
         }
 
         debug {
             versionNameSuffix " - DEBUG"
-            resValue "string", "app_name", "My Application Debug"
         }
     }
 
