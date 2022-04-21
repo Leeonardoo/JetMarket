@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.myapplication'
+    namespace 'io.github.leeonardoo.jetmarket'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.myapplication"
+        applicationId "io.github.leeonardoo.jetmarket"
         minSdk 23
         targetSdk 32
         versionCode 1
@@ -79,7 +79,7 @@ android {
 }
 
 dependencies {
-    def lifecycle_version = '2.4.1'
+    def lifecycle_version = '2.5.0-alpha05'
     def accompanist_version = '0.24.5-alpha'
     def emojiVersion = '1.1.0'
 
@@ -127,8 +127,8 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
     implementation "androidx.navigation:navigation-compose:$nav_version"
-    implementation 'io.github.raamcosta.compose-destinations:animations-core:1.3.5-beta'
-    ksp 'io.github.raamcosta.compose-destinations:ksp:1.3.5-beta'
+    implementation 'io.github.raamcosta.compose-destinations:animations-core:1.4.0-beta'
+    ksp 'io.github.raamcosta.compose-destinations:ksp:1.4.0-beta'
 
     //Jetpack Compose
     implementation "androidx.compose.ui:ui:$compose_version"
@@ -166,7 +166,7 @@ dependencies {
 
     //Moshi
     implementation 'com.squareup.moshi:moshi:1.13.0'
-    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.13.0'
+    ksp 'com.squareup.moshi:moshi-kotlin-codegen:1.13.0'
 
     //Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
